@@ -11,6 +11,9 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+
 
 android {
     compileSdkVersion 27
@@ -33,23 +36,5 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
 }
 
-group = 'com.jackpocket'
+group='com.github.ChristianSteffensen'
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'scratchoff'
-
-    publishedGroupId = 'com.jackpocket'
-    libraryName = 'scratchoff'
-    artifact = 'scratchoff'
-
-    libraryDescription = 'A Scratchoff View system.'
-    libraryVersion = '1.2.0'
-
-    developerId = 'jackpocket'
-    developerName = 'Jackpocket'
-    developerEmail = 'services@jackpocket.com'
-}
-
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
