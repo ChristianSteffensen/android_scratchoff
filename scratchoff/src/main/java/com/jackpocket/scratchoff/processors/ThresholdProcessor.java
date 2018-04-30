@@ -7,6 +7,7 @@ import android.graphics.Path;
 
 import com.jackpocket.scratchoff.ScratchoffController;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 public class ThresholdProcessor extends Processor {
@@ -90,16 +91,32 @@ public class ThresholdProcessor extends Processor {
     }
 
     private double getScratchedCount(Bitmap bitmap) {
-        int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
-        bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+//        int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
+//        bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+//
+//        double scratched = 0;
+//
+//        for(int pixel : pixels)
+//            if(pixel == MARKER_SCRATCHED)
+//                scratched++;
+//
+//        return scratched;
 
-        double scratched = 0;
+        ByteBuffer buffer = ByteBuffer.allocate(bitmap.getHeight() * bitmap.getRowBytes());
+        bitmap.copyPixelsToBuffer(buffer);
 
-        for(int pixel : pixels)
-            if(pixel == MARKER_SCRATCHED)
-                scratched++;
+        byte[] array = buffer.array();
 
-        return scratched;
+        int len = array.length;
+        int count = 0;
+
+        for(int i=0;i<len;i++) {
+            if(array[i] == 0) {
+                count++;
+            }
+        }
+
+        return ((float)(count))/len;
     }
 
     private void postThresholdReached() {
